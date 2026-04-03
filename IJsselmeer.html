@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>IJsselmeer | The Freshwater Mirror of Dutch Genius</title>
+  <meta name="description" content="IJsselmeer: a breathtaking artificial lake born from the sea, reflecting centuries of Dutch hydraulic mastery, historic villages, and sustainable future.">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(145deg, #eef5f7 0%, #d9e4e8 100%);
+      font-family: 'Georgia', 'Times New Roman', 'Palatino', serif;
+      color: #1a2a32;
+      line-height: 1.55;
+      padding: 2rem 1.5rem;
+    }
+
+    /* main container — soft paper-like elegance */
+    .masterpiece {
+      max-width: 1280px;
+      margin: 0 auto;
+      background: rgba(255, 255, 245, 0.97);
+      border-radius: 3rem;
+      box-shadow: 0 25px 45px -12px rgba(0, 20, 30, 0.35), inset 0 1px 0 rgba(255,255,240,0.8);
+      backdrop-filter: blur(0px);
+      overflow: hidden;
+      transition: all 0.2s ease;
+    }
+
+    /* header wave */
+    .hero {
+      background: linear-gradient(112deg, #1e4a5f 0%, #2c6e4f 100%);
+      padding: 2.8rem 2.5rem 2.2rem;
+      color: #fef9e6;
+      text-align: center;
+      border-bottom: 6px solid #f7c56e;
+    }
+
+    .hero h1 {
+      font-size: 2.9rem;
+      letter-spacing: -0.5px;
+      font-weight: 600;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+      word-break: keep-all;
+    }
+
+    .hero h1 span {
+      display: inline-block;
+      background: #f7c56ecc;
+      padding: 0 12px;
+      border-radius: 60px;
+      font-size: 2rem;
+      color: #1e3a2f;
+      margin: 0 6px;
+    }
+
+    .hero .date-tag {
+      margin-top: 1rem;
+      font-family: 'Courier New', monospace;
+      font-size: 1.1rem;
+      background: #00000033;
+      display: inline-block;
+      padding: 0.3rem 1.2rem;
+      border-radius: 60px;
+      backdrop-filter: blur(4px);
+    }
+
+    /* elegant button bar */
+    .nav-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      padding: 1.4rem 2rem;
+      background: #fffaf0;
+      border-bottom: 1px solid #e2dccd;
+    }
+
+    .nav-btn {
+      background: #f0ede5;
+      border: none;
+      padding: 0.65rem 1.6rem;
+      font-size: 1rem;
+      font-weight: 500;
+      font-family: 'Segoe UI', system-ui, 'Helvetica Neue', sans-serif;
+      border-radius: 48px;
+      color: #1e4a5f;
+      cursor: pointer;
+      transition: all 0.25s;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(2px);
+    }
+
+    .nav-btn:hover {
+      background: #f7c56e;
+      color: #1e3a2f;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 18px -8px rgba(0,0,0,0.2);
+    }
+
+    /* content styling */
+    .content {
+      padding: 2.8rem 2.5rem;
+    }
+
+    .content h2 {
+      font-size: 2rem;
+      margin: 1.6em 0 0.6em 0;
+      padding-bottom: 0.3rem;
+      border-bottom: 3px dotted #b9cfd4;
+      display: inline-block;
+      color: #1e5a5f;
+    }
+
+    .content h3 {
+      font-size: 1.5rem;
+      margin: 1.4em 0 0.4em;
+      color: #2c6e4f;
+    }
+
+    .content p {
+      margin-bottom: 1.2rem;
+      font-size: 1.05rem;
+      text-align: justify;
+    }
+
+    .highlight-quote {
+      font-style: italic;
+      background: #eef3e6;
+      padding: 1.2rem 1.8rem;
+      border-left: 8px solid #f7c56e;
+      margin: 1.8rem 0;
+      border-radius: 20px;
+      font-weight: 500;
+      color: #1e3a2f;
+    }
+
+    /* place list styling — emoji & elegant grid */
+    .place-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0 2rem;
+    }
+
+    .place-card {
+      background: #ffffffd9;
+      padding: 0.8rem 1.2rem;
+      border-radius: 2rem;
+      box-shadow: 0 5px 12px rgba(0,0,0,0.03);
+      transition: all 0.2s;
+      border: 1px solid #e7dfce;
+      font-weight: 450;
+    }
+
+    .place-card:hover {
+      background: #fff9ef;
+      transform: scale(1.01);
+    }
+
+    hr {
+      margin: 2rem 0;
+      border: none;
+      height: 2px;
+      background: linear-gradient(to right, #f7c56e, transparent);
+    }
+
+    footer {
+      background: #f7f2e4;
+      text-align: center;
+      padding: 1.8rem;
+      font-size: 0.85rem;
+      color: #4a5b5e;
+      border-top: 1px solid #e3d9c6;
+    }
+
+    .hashtags {
+      margin: 1rem 0 0;
+      font-family: monospace;
+      word-break: break-word;
+    }
+
+    @media (max-width: 700px) {
+      .hero h1 { font-size: 1.9rem; }
+      .content { padding: 1.6rem; }
+      .nav-btn { padding: 0.5rem 1rem; font-size: 0.85rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="masterpiece" id="mainPage">
+  <div class="hero">
+    <h1>🌊✨ IJsselmeer: <span>When Dutch Genius</span> Reshaped the Sea ✨🌊</h1>
+    <div class="date-tag">📅 April 3, 2026 — A blessed Friday where waters whisper wisdom</div>
+    <div style="margin-top: 0.8rem; font-size: 1rem;">🇳🇱 The Freshwater Mirror in the Heart of the Lowlands 🇳🇱</div>
+  </div>
+
+  <!-- BUTTONS: callme, index (home), 2026, story, april, lake, river -->
+  <div class="nav-bar">
+    <a href="#" class="nav-btn" id="homeBtn">🏠 INDEX.html</a>
+    <a href="#" class="nav-btn" id="callmeBtn">📞 Call Us / contact</a>
+    <a href="#" class="nav-btn" id="yearBtn">📅 2026</a>
+    <a href="#" class="nav-btn" id="storyBtn">📖 story.html</a>
+    <a href="#" class="nav-btn" id="aprilBtn">🌸 april.html</a>
+    <a href="#" class="nav-btn" id="lakeBtn">💧 lake.html</a>
+    <a href="#" class="nav-btn" id="riverBtn">🌊 River.html</a>
+  </div>
+
+  <div class="content">
+    <h2>💙 The Freshwater Masterpiece in the Heart of the Netherlands</h2>
+    <p>In the heart of the lowlands, where humanity has wrestled with the sea for every inch of land over centuries, the <strong>IJsselmeer</strong> stretches out like a vast watery mirror reflecting a history of defiance and engineering genius. This artificial freshwater lake, covering <strong>1,100 km²</strong>, is not merely a body of water — it is a living testament to the Dutch ability to reshape the very geography of nature. 🧠🇳🇱</p>
+
+    <h2>🧭🗺️ Geography of the Soul and Water</h2>
+    <p>The IJsselmeer lies between three venerable provinces: <strong>Flevoland</strong>, <strong>North Holland</strong>, and <strong>Friesland</strong>. Its average depth is only <strong>4.5 meters</strong>, making it a tranquil aquatic entity close to the surface, almost touching the soul before the feet. Its permanent fresh waters, fed primarily by the <strong>IJssel River</strong> (which lends it its name), transform it into a strategic reservoir for agriculture and drinking water, while the discharge gates in the <strong>Afsluitdijk</strong> — that colossal dyke stretching <strong>32 kilometers</strong> — regulate the pulse of its water levels across the seasons. 🌾💧⚙️</p>
+
+    <h2>📜🧱 A History Written in Water and Brick</h2>
+    <p>Two thousand years ago, this place was merely a complex of lakes described by the Roman geographer <strong>Pomponius Mela</strong> as <em>"Lacus Flevo."</em> 🏛️ But winds and storms played their game, and the region transformed into a salty inlet threatening the inhabitants under the name <strong>Zuiderzee</strong>. 🌊⚠️ After the disastrous flood of <strong>1916</strong>, the Dutch parliament approved a daring plan: to close off the inlet and turn it into a freshwater lake.</p>
+    <p>Construction began in <strong>1927</strong>, and in <strong>1932</strong> the dyke was completed, and the IJsselmeer was born from the womb of the sea. Then came the reclamation phase: between <strong>1929 and 1967</strong>, over half of the lake was drained to create <strong>1,979 km²</strong> of reclaimed land (the <strong>polders</strong>), which in <strong>1986</strong> formed the province of <strong>Flevoland</strong> — the twelfth province of the Netherlands. 🌱🏗️🇳🇱</p>
+
+    <h2>🎨🚤 A Vibrant Canvas of Daily Life</h2>
+    <p>Today, the IJsselmeer offers a breathtaking panoramic scene:</p>
+    <ul style="margin-left: 2rem; margin-bottom: 1.5rem;">
+      <li>🎣🏘️ <strong>Historic fishing villages</strong> such as <strong>Volendam</strong> and <strong>Marken</strong>, with their colorful wooden facades whose reflections tremble upon the surface of the tranquil waters.</li>
+      <li>🌬️🏡 <strong>Windmills</strong> that still raise their arms like silent guardians on the lake's edge.</li>
+      <li>💨⚡ <strong>Modern offshore wind farms</strong> (such as <strong>Windpark Fryslân</strong>) standing proudly — a harmonious blend of past sustainability and future energy.</li>
+      <li>⛵🛡️ <strong>Steel boats</strong> that anchor in fresh waters free from algae and rust, thanks to the new environment that has reduced the need for toxic antifouling paints.</li>
+    </ul>
+
+    <h2>⚠️🌍 Future Challenges</h2>
+    <p>Yet this beauty is not without worry. <strong>Rising sea levels</strong> threaten the delicate balance, prompting the government to install additional, highly advanced pumps. Moreover, the transition from a saline to a freshwater environment has impacted fish and plant ecosystems — an environmental challenge being met with rigorous scientific studies. 📊🔬🌱</p>
+
+    <div class="highlight-quote">
+      💫✨ “The IJsselmeer is not just a lake. It is the <strong>Mirror of the Netherlands</strong>, reflecting humanity’s triumph over nature’s harshness, and a liquid memory telling the story of transformation — from a stormy inlet to the cradle of new lands, from salty waters to a sweet artery nourishing civilization in the lowest corner of the Earth. Here, where engineering meets beauty, and function meets legend, the IJsselmeer stands as a witness that when humanity dreams with genius, it can even reshape the sea.” ✨🌊
+    </div>
+
+    <!-- PLACE NAMES: legendary list -->
+    <h2>📍🗺️ Atlas of the Legend — Places & Waters</h2>
+    <div class="place-grid">
+      <div class="place-card">🌊 <strong>IJsselmeer</strong> – freshwater mirror that quenches the soul</div>
+      <div class="place-card">🪞 <strong>Markermeer</strong> – the quiet southern sibling, unfinished dream</div>
+      <div class="place-card">🌊🔁 <strong>Zuiderzee</strong> – defeated invading sea, turned to sweet treasure</div>
+      <div class="place-card">🏛️ <strong>Lacus Flevo / Lake Flevo</strong> – silent Roman memory (2000 years)</div>
+      <div class="place-card">🌾 <strong>Almere</strong> – mother lake that bowed to medieval storms</div>
+      <div class="place-card">🌊❄️ <strong>Wadden Sea</strong> – northern gateway receiving surplus waters</div>
+      <div class="place-card">🌊🇬🇧 <strong>English Channel</strong> – distant stage of terrifying high tides</div>
+      <div class="place-card">🌾💧 <strong>Bordering Lakes of IJsselmeer</strong> – lateral arteries whispering life</div>
+      <div class="place-card">🧱🚢 <strong>Afsluitdijk</strong> – legendary dyke (32 km) iron grip on the sea</div>
+      <div class="place-card">🔗🌊 <strong>Houtribdijk (Markerwaarddijk)</strong> – the dividing wall birthing two lakes</div>
+    </div>
+
+    <h3>💧 Rivers: Arteries of the Fresh Soul</h3>
+    <div class="place-grid">
+      <div class="place-card">🌾💧 <strong>IJssel River</strong> – pulsing heart (70% of water), eternal namesake</div>
+      <div class="place-card">🌿🌊 <strong>Overijsselse Vecht</strong> – eastern rustle bestowing sweetness</div>
+      <div class="place-card">🏔️🌊 <strong>Rhine River</strong> – great European grandfather sending his grandson IJssel</div>
+    </div>
+
+    <h3>🏙️ Cities & Villages: Jewels on the Banks of Serenity</h3>
+    <div class="place-grid">
+      <div class="place-card">🏗️ <strong>Lelystad</strong> – southern gateway, modern engineering city</div>
+      <div class="place-card">⚓ <strong>Enkhuizen</strong> – historic guardian of the dividing dyke</div>
+      <div class="place-card">🎣 <strong>Volendam</strong> – timeless fishing village, vibrant colors</div>
+      <div class="place-card">🏡 <strong>Marken</strong> – island turned peninsula, secluded charm</div>
+      <div class="place-card">🐟 <strong>Urk</strong> – former island, icon of resilience</div>
+      <div class="place-card">🏰 <strong>Hindeloopen</strong> – Friesland’s gem painting on wood</div>
+      <div class="place-card">⛵ <strong>Stavoren</strong> – oldest city in Friesland, guarding eastern shore</div>
+    </div>
+
+    <h3>🧭 Provinces & Polders: Canvas of Human Triumph</h3>
+    <div class="place-grid">
+      <div class="place-card">🌱 <strong>Flevoland</strong> – twelfth province, child born from the sea</div>
+      <div class="place-card">🏞️ <strong>North Holland</strong> – dreamy western bank</div>
+      <div class="place-card">🌾 <strong>Friesland</strong> – ancient east with language and legends</div>
+      <div class="place-card">🌻 <strong>Wieringermeerpolder</strong> – first green victory over waters</div>
+      <div class="place-card">🌾 <strong>Noordoostpolder</strong> – kingdom of fields and winds</div>
+      <div class="place-card">🏗️ <strong>East & South Flevoland</strong> – expansion of urban dream</div>
+      <div class="place-card">⌛ <strong>Markerwaard</strong> – deferred dream, blank canvas in memory</div>
+    </div>
+
+    <hr />
+    <div class="hashtags">
+      🏷️ #IJsselmeer #DutchGenius #FreshwaterMiracle #Afsluitdijk #ZuiderzeeWorks #Flevoland #Netherlands #WaterManagement #EngineeringMarvel #MirrorOfTheNetherlands #PolderDreams #WindmillLegacy #SustainableFuture 🌊💙🇳🇱
+    </div>
+  </div>
+
+  <footer>
+    🧠✨ Crafted with brilliance by an admirer of beauty — under the inspiration of a truly genius mind.<br>
+    “When humanity dreams with genius, even the sea learns to bow.” 🌙💙<br>
+    © 2026 · IJsselmeer Eternal Legend · Freshwater heart of the Lowlands
+  </footer>
+</div>
+
+<script>
+  // Helper: open pages or create alert simulation for external navigation,
+  // but since we want clean interaction and fallback to same-tab navigation (simulated pages)
+  // We'll create behavior that shows a smart info and also redirects to actual pages if they existed.
+  // For demonstration: callme.html, story.html, april.html, lake.html, River.html, 2026, index.html.
+  // All buttons will navigate to "#" but we override with window.location for each intended route.
+  // The home button will reload current page (or index). Others will attempt to open respective pages.
+  // Because we are inside index.html, "index.html" reloads same page.
+  
+  const homeBtn = document.getElementById('homeBtn');
+  const callmeBtn = document.getElementById('callmeBtn');
+  const yearBtn = document.getElementById('yearBtn');
+  const storyBtn = document.getElementById('storyBtn');
+  const aprilBtn = document.getElementById('aprilBtn');
+  const lakeBtn = document.getElementById('lakeBtn');
+  const riverBtn = document.getElementById('riverBtn');
+
+  // function to handle navigation and optional console/alert for demo.
+  function navTo(pageName, isSpecial = false) {
+    // For callme.html, story.html, april.html, lake.html, River.html, 2026 (as 2026.html or route)
+    if (pageName === '2026') {
+      window.location.href = '2026.html';
+    } else if (pageName === 'index.html' || pageName === 'index') {
+      window.location.href = 'index.html';
+    } else {
+      window.location.href = pageName;
+    }
+  }
+
+  homeBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    navTo('index.html');
+  });
+  callmeBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    navTo('callme.html');
+  });
+  yearBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    navTo('2026');
+  });
+  storyBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    navTo('story.html');
+  });
+  aprilBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    navTo('april.html');
+  });
+  lakeBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    navTo('lake.html');
+  });
+  riverBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    navTo('River.html');
+  });
+
+  // additional gentle console message for genius
+  console.log('✨ IJsselmeer — masterpiece loaded | Dutch water legend ✨');
+</script>
+</body>
+</html>
