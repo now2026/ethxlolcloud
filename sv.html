@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🌿 doors.mom🍻🧊🪵 · förvandla berättelser 🧊🫐till ren HTML</title>
+  <meta name="description" content="Privat, spårningsfritt verktyg för att konvertera dina berättelser till ren HTML/PDF/TXT. Endast på klientsidan. Byggt med respekt.">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* 🎨 Swedish Theme: Dark Navy & Snowy White */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(180deg, #0a1628 0%, #0f1f3a 100%);
+      color: #f8f9fa;
+      line-height: 1.8;
+      margin: 0;
+      padding: 2rem;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    /* 🌊 Header */
+    .header {
+      text-align: center;
+      padding: 2.5rem 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 2rem;
+    }
+    .header h1 {
+      font-weight: 300;
+      font-size: 2rem;
+      margin: 0 0 0.5rem 0;
+      color: #ffffff;
+      letter-spacing: 1px;
+    }
+    .header h1 span {
+      opacity: 0.7;
+    }
+    .multilingual-greeting {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+      color: #a8b8d0;
+    }
+    .header > p {
+      color: #d9e2f0;
+      margin: 1rem 0 0 0;
+      font-size: 0.95rem;
+    }
+
+    /* 🇸🇪 Swedish Welcome Card */
+    .swedish-welcome {
+      background: linear-gradient(145deg, #162a4a, #0a1628);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 2rem;
+      margin: 2rem 0;
+      text-align: center;
+    }
+    .swedish-welcome h2 {
+      font-weight: 300;
+      font-size: 1.5rem;
+      margin: 0 0 0.5rem 0;
+      color: #ffffff;
+    }
+    .swedish-welcome .emoji-row {
+      font-size: 1.3rem;
+      margin: 0.5rem 0;
+      letter-spacing: 0.3rem;
+    }
+    .swedish-welcome p {
+      color: #d9e2f0;
+      margin: 0.5rem 0;
+      font-size: 0.95rem;
+    }
+    .swedish-wish {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px dashed rgba(255,255,255,0.15);
+      font-style: italic;
+      color: #a8b8d0;
+      font-size: 0.9rem;
+    }
+
+    /* ✍️ Story Input */
+    .story-section {
+      margin: 2rem 0;
+    }
+    .story-input {
+      width: 100%;
+      min-height: 180px;
+      padding: 1.2rem;
+      background: #0f1f3a;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px;
+      color: #f8f9fa;
+      font-family: inherit;
+      font-size: 1rem;
+      line-height: 1.7;
+      resize: vertical;
+      transition: border-color 0.2s ease;
+    }
+    .story-input:focus {
+      outline: none;
+      border-color: #6b8bb5;
+    }
+    .story-input::placeholder {
+      color: #6b8bb5;
+      opacity: 0.8;
+    }
+
+    /* 📊 Stats */
+    .stats-row {
+      display: flex;
+      gap: 1.5rem;
+      margin: 1rem 0;
+      font-size: 0.85rem;
+      color: #6b8bb5;
+    }
+
+    /* 🔘 Action Buttons */
+    .action-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin: 2rem 0;
+    }
+    .btn {
+      padding: 0.6rem 1.2rem;
+      background: #0f1f3a;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 6px;
+      color: #d9e2f0;
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .btn:hover {
+      background: #162a4a;
+      border-color: #6b8bb5;
+      color: #ffffff;
+    }
+    .btn.primary {
+      background: #1e3a5f;
+      border-color: #6b8bb5;
+      color: #ffffff;
+      font-weight: 500;
+    }
+    .btn.primary:hover {
+      background: #2a4a75;
+    }
+
+    /* 👁️ Preview & 💻 Code */
+    .preview-section, .code-section {
+      margin: 2.5rem 0;
+    }
+    .preview-section h3, .code-section h3 {
+      font-weight: 400;
+      font-size: 1.1rem;
+      margin: 0 0 1rem 0;
+      color: #ffffff;
+    }
+    .preview-box, .code-output {
+      background: #0f1f3a;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 1.5rem;
+      min-height: 100px;
+      color: #d9e2f0;
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+    .code-output {
+      font-family: "SF Mono", "Monaco", "Consolas", monospace;
+      font-size: 0.85rem;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    /* 🕊️ Footer */
+    .footer {
+      margin-top: 4rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      text-align: center;
+    }
+    .gratitude {
+      margin-bottom: 2rem;
+      color: #d9e2f0;
+      font-size: 0.95rem;
+      line-height: 1.9;
+    }
+    .gratitude strong {
+      color: #ffffff;
+    }
+    
+    .multilingual-wishes {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin: 2rem 0;
+    }
+    .multilingual-wishes > div {
+      text-align: center;
+    }
+    .wish-text {
+      font-size: 1rem;
+      color: #ffffff;
+      margin-bottom: 0.25rem;
+    }
+    .wish-language {
+      font-size: 0.75rem;
+      color: #6b8bb5;
+    }
+
+    .privacy-note {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px dashed rgba(255,255,255,0.1);
+      font-size: 0.8rem;
+      color: #6b8bb5;
+    }
+    .privacy-badge {
+      display: inline-block;
+      background: #0f1f3a;
+      padding: 0.3rem 0.7rem;
+      border-radius: 4px;
+      margin: 0.2rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      font-size: 0.75rem;
+    }
+    .multilingual-welcome {
+      margin: 1rem 0;
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      font-size: 0.8rem;
+      color: #a8b8d0;
+    }
+
+    /* 🔗 Cultural Links Section */
+    .cultural-links {
+      margin: 3rem 0 2rem 0;
+      text-align: center;
+    }
+    .cultural-links h4 {
+      font-weight: 400;
+      font-size: 1rem;
+      color: #6b8bb5;
+      margin: 0 0 1rem 0;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .link-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+    .culture-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 1rem;
+      background: #0f1f3a;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px;
+      color: #d9e2f0;
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: all 0.2s ease;
+    }
+    .culture-link:hover {
+      background: #162a4a;
+      border-color: #6b8bb5;
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+    .culture-link.poland {
+      border-left: 3px solid #dc143c;
+    }
+    .culture-link.nordic {
+      border-left: 3px solid #005293;
+    }
+
+    /* 💾 Toast */
+    #saveToast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #162a4a;
+      color: #ffffff;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.15);
+      font-size: 0.9rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      z-index: 1000;
+    }
+    #saveToast.show {
+      opacity: 1;
+    }
+
+    /* 📱 Responsive */
+    @media (max-width: 600px) {
+      .header h1 { font-size: 1.6rem; }
+      .action-buttons { justify-content: center; }
+      .stats-row { justify-content: center; }
+      .multilingual-wishes { gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container" role="main">
+    
+    <!-- 🌊 Header -->
+    <header class="header">
+      <h1>🌿 doors<span>.mom</span> 🫧</h1>
+      <div class="multilingual-greeting" aria-label="Hälsningar på flera språk">
+        <span>🇮🇸 Hei</span><span>🇱🇻 Sveiki</span><span>🇱🇹 Labas</span>
+        <span>🇷🇸 Zdravo</span><span>🇧🇬 Здравейте</span><span>🇷🇴 Bună</span>
+        <span>🇭🇷 Ćao</span><span>🇨🇭 Willkommen</span><span>🇭🇰 你好</span>
+      </div>
+      <p>förvandla dina berättelser till ren HTML · 🕊️ privat · 🚫 ingen spårning · 💾 ingen lagring · 🧊 snabb</p>
+    </header>
+
+    <!-- 🇸🇪 Swedish Welcome Section -->
+    <section class="swedish-welcome" aria-label="Välkommen till Sverige">
+      <div class="emoji-row">🤍🫐🧊🕊️🌳🪵🌧️🍸</div>
+      <h2>Välkommen till doors.mom</h2>
+      <p style="color:#a8b8d0;font-size:0.9rem;margin:0.5rem 0;">🇸🇪 · Svenska kulturhälsning</p>
+      <p>Här, i nordens stillhet, får dina ord vila i fred. 🌲</p>
+      <p>Ingen brådska. Ingen insamling. Bara du och din berättelse. 🤍</p>
+      <div class="swedish-wish">
+        🕊️ <em>Vi önskar dig framgång i ditt skapande, trygghet i dina ord, och frid i ditt hjärta. Må dina berättelser växa som en skog i svensk mark — starka, fria och eviga. 🫐🧊</em>
+      </div>
+    </section>
+
+    <main class="main-content">
+      
+      <!-- ✍️ Input -->
+      <section class="story-section">
+        <label for="storyInput" class="sr-only" style="position:absolute;left:-9999px;">Skriv din berättelse</label>
+        <textarea class="story-input" id="storyInput" placeholder="Skriv din berättelse här... 📜&#10;&#10;# Den Gamla Eken 🌳&#10;- Min mormor planterade den 1950&#10;- Vi lekte under den varje sommar 🍁&#10;**År senare**, står den fortfarande, bär alla våra minnen. 🤍" aria-describedby="storyHelp"></textarea>
+        <small id="storyHelp" style="color:#6b8bb5;display:block;margin-top:6px;font-size:0.85em;">Tips: Använd <code>#</code> rubriker, <code>-</code> listor, <code>**fetstil**</code>, <code>*kursiv*</code> 🪶</small>
+      </section>
+
+      <!-- 📊 Stats -->
+      <div class="stats-row" id="statsRow" aria-live="polite">
+        <span id="wordCount">0 ord</span><span id="charCount">0 tecken</span><span id="readingTime">0 min läsning</span>
+      </div>
+
+      <!-- 🔘 Actions -->
+      <div class="action-buttons">
+        <button class="btn" id="clearBtn" title="Rensa berättelse" aria-label="Rensa berättelse">🗑️ rensa</button>
+        <button class="btn" id="copyBtn" title="Kopiera HTML" aria-label="Kopiera HTML-kod">📋 kopiera</button>
+        <button class="btn" id="saveBtn" title="Ladda ner HTML" aria-label="Ladda ner som HTML-fil">💾 html</button>
+        <button class="btn" id="txtBtn" title="Ladda ner TXT" aria-label="Ladda ner som vanlig text">📝 txt</button>
+        <button class="btn" id="pdfBtn" title="Spara som PDF" aria-label="Spara som PDF">📄 pdf</button>
+        <button class="btn primary" id="convertBtn" title="Konvertera till HTML" aria-label="Konvertera berättelse till HTML">✨ konvertera</button>
+        <a href="callme.html" class="btn contact" aria-label="Kontakta oss">📮 kontakt</a>
+      </div>
+
+      <!-- 👁️ Preview -->
+      <section class="preview-section">
+        <h3>🔍 förhandsgranskning · forspá · prikaz · pregled 🫐</h3>
+        <div class="preview-box" id="preview" role="region" aria-live="polite"><em style="color:#6b8bb5;">din berättelse visas här... 🌷🪷</em></div>
+      </section>
+
+      <!-- 💻 Code -->
+      <section class="code-section">
+        <h3>💻 HTML · kóði · kod · cod 📜</h3>
+        <div class="code-output" id="htmlOutput" role="region" aria-live="polite"><em style="color:#6b8bb5;">klicka på konvertera för att generera ren HTML 🧊☁️</em></div>
+      </section>
+
+      <!-- 🔗 Cultural Links Section -->
+      <section class="cultural-links" aria-label="Kulturella länkar">
+        <h4>🌍 Kulturella vägar</h4>
+        <div class="link-grid">
+          <a href="https://www.doors.mom/polska.html" class="culture-link poland" aria-label="Konvertera berättelse till HTML på polska">
+            🇵🇱 Polska · HTML
+          </a>
+          <a href="https://www.doors.mom/polska1.html" class="culture-link poland" aria-label="Polsk kultur">
+            🏔️ Polska Kultur 1
+          </a>
+          <a href="https://www.doors.mom/polska2.html" class="culture-link poland" aria-label="Polsk kultur del 2">
+            🌳 Polska Kultur 2
+          </a>
+          <a href="https://www.doors.mom/polska4.html" class="culture-link poland" aria-label="Polens floder">
+            🌊 Polens Floder
+          </a>
+          <a href="https://www.doors.mom/nordic.html" class="culture-link nordic" aria-label="Konvertera berättelse till HTML på nordiska språk">
+            🧊 Nordic · HTML
+          </a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- 🕊️ Footer -->
+    <footer class="footer">
+      <div class="gratitude">
+        <p>vi lagrar inte · vi spårar inte · vi säljer inte. 🕊️<br>det du skriver förblir ditt, helt och hållet. 🤍<br>detta är inte bara ett verktyg — detta är förtroende. 🏔️🌊</p>
+        <p><strong>tack för att du är här.</strong><br>tack för att du hedrar dina egna ord. 🪶<br>tack för att du delar dessa värderingar. 🌳🫐</p>
+      </div>
+      
+      <div class="multilingual-wishes" aria-label="Fredönskningar på flera språk">
+        <div><div class="wish-text">megjen rauha 🇮🇸</div><div class="wish-language">nordisk · sinnesro</div></div>
+        <div><div class="wish-text">mir u duši 🇷🇸</div><div class="wish-language">balkan · frid i själen</div></div>
+        <div><div class="wish-text">sirdsmiers 🇱🇻</div><div class="wish-language">baltisk · hjärtats frid</div></div>
+        <div><div class="wish-text">frid och ljus 🇸🇪</div><div class="wish-language">svensk · peace & light</div></div>
+      </div>
+      
+      <div class="privacy-note">
+        <span class="privacy-badge">🔒 100% privat</span>
+        <span class="privacy-badge">🚫 ingen spårning</span>
+        <span class="privacy-badge">💾 ingen serverlagring</span>
+        <span class="privacy-badge">🍃 2026 · doors.mom</span>
+        <br><span style="display:block;margin:8px 0 4px;color:#a8b8d0;">varje berättelse född här är fri. inga ögon, inget pris. bara du och dina ord. 🐼</span>
+        <span style="color:#6b8bb5;display:block;margin-top:6px;">utkast sparas lokalt endast i din webbläsare · rensa när som helst 🗞️</span>
+        <div class="multilingual-welcome" aria-label="Välkommen på flera språk">
+          <span lang="en">Welcome</span><span lang="de">Willkommen</span><span lang="fi">Tervetuloa</span>
+          <span lang="sv">Välkommen</span><span lang="bg">Добре дошли</span><span lang="ja">ようこそ</span>
+          <span lang="is">Velkomin</span><span lang="zh">欢迎</span>
+        </div>
+        <div style="margin-top:12px;padding-top:12px;border-top:1px dashed rgba(255,255,255,0.1);font-size:0.75em;color:#6b8bb5;">
+          <strong>doors.mom etiska kodex:</strong><br>endast på klientsidan · noll beroenden · inga kakor · inget fingeravtryck · open source-anda · respekt först 🌸🪷
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- 💾 Local Save Toast -->
+  <div id="saveToast" aria-live="polite">💾 Sparat lokalt</div>
+
+  <script src="script.js"></script>
+</body>
+</html>
