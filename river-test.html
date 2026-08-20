@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scheldt River Data Viewer</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            padding: 20px;
+            direction: ltr;
+            margin: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #6d4aff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .status {
+            text-align: center;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        pre {
+            background-color: #2d2d2d;
+            color: #e0e0e0;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 14px;
+            line-height: 1.6;
+            border: 1px solid #444;
+            min-height: 100px;
+        }
+        .error {
+            color: #ff4444;
+            background-color: #ffe6e6;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ffcccc;
+            text-align: center;
+        }
+        .success-info {
+            color: #008000;
+            font-size: 0.9em;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Scheldt River Information</h1>
+    <div id="status-message" class="status">Loading data...</div>
+    <div id="json-output"></div>
+    <div id="success-note" class="success-info" style="display:none;">
+        Successfully loaded <strong>river1.json</strong>.
+    </div>
+</div>
+
+<script>
+    /**
+     * Fetches the river1.json file and displays it formatted.
+     */
+    async function loadRiverData() {
+        const outputDiv = document.getElementById('json-output');
+        const statusMsg = document.getElementById('status-message');
+        const successNote = document.getElementById('success-note');
+
+        try {
+            // Attempt to fetch the file named 'river1.json'
+            const response = await fetch('river1.json');
+
+            if (!response.ok) {
+                throw new Error(`Failed to load file: HTTP Status ${response.status}`);
+            }
+
+            // Parse the JSON content
+            const data = await response.json();
+
+            // Update status
+            statusMsg.textContent = "Data loaded successfully.";
+            statusMsg.style.color = "#008000";
+            successNote.style.display = "block";
+
+            // Display the data nicely formatted (indented by 2 spaces)
+            outputDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+
+        } catch (error) {
+            console.error("Fetch error:", error);
+            
+            // Display error message to user
+            statusMsg.style.display = 'none';
+            outputDiv.innerHTML = `
+                <div class="error">
+                    <strong>Error loading data:</strong><br>
+                    ${error.message}<br><br>
+                    <small>Please ensure:<br>
+                    1. The file <code>river1.json</code> exists in the same folder.<br>
+                    2. You are running this via a local server (not just opening the file directly).</small>
+                </div>
+            `;
+        }
+    }
+
+    // Run the function when the page loads
+    window.addEventListener('DOMContentLoaded', loadRiverData);
+</script>
+
+</body>
+</html>
