@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>River Chronicles - Accessible & Elegant</title>
+    <style>
+        /* ========================================
+           RESET & BASE
+        ======================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0a0e1e;
+            --secondary: #0f1428;
+            --text: #f0f4ff;
+            --text-dim: rgba(255, 255, 255, 0.15);
+            --accent: rgba(100, 180, 255, 0.08);
+            --border: rgba(255, 255, 255, 0.04);
+            --glow: rgba(100, 180, 255, 0.03);
+            --focus: #60a5fa;
+            --radius: 24px;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: var(--primary);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--text);
+            position: relative;
+        }
+
+        /* ========================================
+           AMBIENT BACKGROUND
+        ======================================== */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse at 20% 30%, rgba(10, 40, 100, 0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 70%, rgba(20, 60, 140, 0.1) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ========================================
+           MAIN CONTAINER
+        ======================================== */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ========================================
+           HEADER
+        ======================================== */
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 30px 20px 25px;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+
+        .header::after {
+            content: '⸻';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(100, 180, 255, 0.06);
+            font-size: 1.4rem;
+            background: var(--primary);
+            padding: 0 20px;
+            letter-spacing: 6px;
+        }
+
+        .header-icon {
+            font-size: 2.2rem;
+            display: block;
+            margin-bottom: 8px;
+            opacity: 0.3;
+            letter-spacing: 12px;
+        }
+
+        .header h1 {
+            font-weight: 300;
+            font-size: 2.6rem;
+            color: var(--text);
+            letter-spacing: 4px;
+            text-shadow: 0 0 60px var(--glow);
+        }
+
+        .header .sub {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 10px;
+            text-transform: uppercase;
+            margin-top: 8px;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        /* ========================================
+           SKIP LINK
+        ======================================== */
+        .skip-link {
+            position: absolute;
+            top: -1000px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 12px 24px;
+            background: var(--focus);
+            color: #000;
+            border-radius: 8px;
+            font-family: 'Arial', sans-serif;
+            font-size: 0.9rem;
+            z-index: 100;
+            transition: top 0.3s;
+        }
+
+        .skip-link:focus {
+            top: 10px;
+        }
+
+        /* ========================================
+           FRAME CARDS
+        ======================================== */
+        .frame-card {
+            background: linear-gradient(160deg, 
+                rgba(6, 10, 28, 0.95), 
+                rgba(2, 5, 18, 0.98));
+            border-radius: var(--radius);
+            padding: 4px;
+            margin-bottom: 40px;
+            border: 1px solid var(--border);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+            transition: all 0.5s ease;
+            position: relative;
+        }
+
+        .frame-card:focus-within {
+            box-shadow: 0 0 0 3px var(--focus), 0 30px 80px rgba(0, 0, 0, 0.8);
+        }
+
+        .frame-card::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: calc(var(--radius) + 2px);
+            padding: 2px;
+            background: conic-gradient(
+                from 0deg,
+                transparent 0%,
+                rgba(60, 120, 220, 0.06) 25%,
+                rgba(100, 180, 255, 0.03) 50%,
+                rgba(60, 120, 220, 0.06) 75%,
+                transparent 100%
+            );
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            animation: borderRotate 12s linear infinite;
+        }
+
+        @keyframes borderRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .frame-inner {
+            background: rgba(4, 8, 22, 0.6);
+            border-radius: calc(var(--radius) - 2px);
+            padding: 30px 35px 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ========================================
+           CORNER ACCENTS
+        ======================================== */
+        .corner {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border: 1px solid rgba(100, 180, 255, 0.04);
+            pointer-events: none;
+            opacity: 0.3;
+        }
+        .corner-tl { top: 10px; left: 10px; border-right: none; border-bottom: none; border-radius: 3px 0 0 0; }
+        .corner-tr { top: 10px; right: 10px; border-left: none; border-bottom: none; border-radius: 0 3px 0 0; }
+        .corner-bl { bottom: 10px; left: 10px; border-right: none; border-top: none; border-radius: 0 0 0 3px; }
+        .corner-br { bottom: 10px; right: 10px; border-left: none; border-top: none; border-radius: 0 0 3px 0; }
+
+        /* ========================================
+           FRAME HEADER
+        ======================================== */
+        .frame-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .frame-title {
+            font-size: 1.1rem;
+            font-weight: 300;
+            color: var(--text);
+            letter-spacing: 2px;
+            font-family: 'Georgia', serif;
+        }
+
+        .frame-title .chapter-badge {
+            display: inline-block;
+            font-size: 0.55rem;
+            padding: 2px 12px;
+            border-radius: 20px;
+            background: rgba(100, 180, 255, 0.04);
+            color: rgba(255, 255, 255, 0.15);
+            letter-spacing: 2px;
+            margin-left: 10px;
+            font-family: 'Arial', sans-serif;
+            text-transform: uppercase;
+        }
+
+        /* ========================================
+           CONTROLS
+        ======================================== */
+        .controls-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 8px 18px;
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.01);
+            color: rgba(255, 255, 255, 0.15);
+            font-size: 0.6rem;
+            font-family: 'Arial', sans-serif;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            position: relative;
+        }
+
+        .btn:hover,
+        .btn:focus-visible {
+            background: rgba(255, 255, 255, 0.03);
+            color: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+
+        .btn:focus-visible {
+            outline: 2px solid var(--focus);
+            outline-offset: 2px;
+        }
+
+        .btn .icon {
+            font-size: 0.8rem;
+        }
+
+        .btn-primary {
+            background: rgba(100, 180, 255, 0.02);
+            border-color: rgba(100, 180, 255, 0.04);
+            color: rgba(180, 220, 255, 0.15);
+        }
+
+        .btn-primary:hover,
+        .btn-primary:focus-visible {
+            background: rgba(100, 180, 255, 0.04);
+            color: rgba(180, 220, 255, 0.25);
+            border-color: rgba(100, 180, 255, 0.06);
+        }
+
+        .btn-playing {
+            background: rgba(52, 211, 153, 0.06);
+            border-color: rgba(52, 211, 153, 0.08);
+            color: rgba(52, 211, 153, 0.2);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        /* ========================================
+           CONTENT DISPLAY
+        ======================================== */
+        .content-area {
+            min-height: 100px;
+            position: relative;
+        }
+
+        /* Loading State */
+        .loading-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            gap: 15px;
+        }
+
+        .loading-spinner {
+            width: 28px;
+            height: 28px;
+            border: 2px solid rgba(255, 255, 255, 0.03);
+            border-top: 2px solid rgba(100, 180, 255, 0.1);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: rgba(255, 255, 255, 0.06);
+            font-size: 0.65rem;
+            letter-spacing: 4px;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* ========================================
+           JSON CONTENT - ELEGANT DISPLAY
+        ======================================== */
+        .json-content {
+            color: var(--text);
+            line-height: 2;
+            font-size: 1.05rem;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .json-content:focus-visible {
+            outline: 2px solid var(--focus);
+            outline-offset: 2px;
+        }
+
+        .json-content::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .json-content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.01);
+            border-radius: 10px;
+        }
+
+        .json-content::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 10px;
+        }
+
+        .json-content .chapter-title {
+            font-size: 1.8rem;
+            font-weight: 300;
+            color: #ffffff;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+            font-family: 'Georgia', serif;
+        }
+
+        .json-content .chapter-subtitle {
+            font-size: 0.9rem;
+            color: rgba(180, 220, 255, 0.15);
+            letter-spacing: 3px;
+            font-family: 'Arial', sans-serif;
+            font-weight: 300;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .json-content .section {
+            margin-bottom: 18px;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.01);
+            border-radius: 10px;
+            border-left: 2px solid rgba(100, 180, 255, 0.04);
+            transition: all 0.3s ease;
+        }
+
+        .json-content .section:focus-within {
+            border-left-color: var(--focus);
+            background: rgba(255, 255, 255, 0.015);
+        }
+
+        .json-content .section-label {
+            color: rgba(180, 220, 255, 0.2);
+            font-weight: 400;
+            display: block;
+            font-size: 0.55rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .json-content .section-value {
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: var(--text);
+        }
+
+        .json-content .section-value p {
+            margin-bottom: 8px;
+        }
+        .json-content .section-value p:last-child {
+            margin-bottom: 0;
+        }
+
+        .json-content .keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 4px;
+        }
+
+        .json-content .keywords .keyword {
+            padding: 2px 12px;
+            border-radius: 20px;
+            background: rgba(100, 180, 255, 0.02);
+            color: rgba(180, 220, 255, 0.12);
+            font-size: 0.65rem;
+            font-family: 'Arial', sans-serif;
+            letter-spacing: 1px;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .json-content .proverb {
+            font-style: italic;
+            color: rgba(180, 220, 255, 0.15);
+            padding: 14px 20px;
+            background: rgba(100, 180, 255, 0.015);
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.05rem;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .json-content .story {
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.005);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.015);
+        }
+
+        .json-content .meta-info {
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.06);
+            font-family: 'Arial', sans-serif;
+            letter-spacing: 1px;
+            padding: 8px 0 0;
+            border-top: 1px solid var(--border);
+            margin-top: 10px;
+        }
+
+        /* ========================================
+           EMPTY / ERROR STATE
+        ======================================== */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: rgba(255, 255, 255, 0.04);
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* ========================================
+           STATUS BAR
+        ======================================== */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 18px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .status-msg {
+            font-size: 0.55rem;
+            color: rgba(255, 255, 255, 0.04);
+            letter-spacing: 3px;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* ========================================
+           ACCESSIBILITY - HIGH CONTRAST
+        ======================================== */
+        @media (prefers-contrast: high) {
+            .frame-card {
+                border: 2px solid rgba(255, 255, 255, 0.1);
+            }
+            .btn {
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            .json-content .section {
+                border-left-color: rgba(100, 180, 255, 0.1);
+            }
+        }
+
+        /* ========================================
+           ACCESSIBILITY - REDUCED MOTION
+        ======================================== */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+            .frame-card::before {
+                animation: none;
+            }
+        }
+
+        /* ========================================
+           RESPONSIVE
+        ======================================== */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.8rem; }
+            .header .sub { font-size: 0.55rem; letter-spacing: 6px; }
+            .frame-inner { padding: 18px 16px; }
+            .frame-header { flex-direction: column; align-items: flex-start; }
+            .controls-group { width: 100%; justify-content: flex-start; }
+            .json-content .chapter-title { font-size: 1.3rem; }
+            .json-content .section { padding: 10px 12px; }
+            .json-content .section-value { font-size: 0.9rem; }
+            .corner { width: 18px; height: 18px; }
+            .corner-tl, .corner-tr { top: 6px; }
+            .corner-bl, .corner-br { bottom: 6px; }
+            .corner-tl, .corner-bl { left: 6px; }
+            .corner-tr, .corner-br { right: 6px; }
+            .btn { padding: 6px 12px; font-size: 0.5rem; letter-spacing: 1px; }
+        }
+
+        @media (max-width: 480px) {
+            body { padding: 10px; }
+            .container { padding: 10px; }
+            .header h1 { font-size: 1.3rem; letter-spacing: 2px; }
+            .frame-inner { padding: 12px; }
+            .json-content .chapter-title { font-size: 1rem; }
+            .json-content .section { padding: 8px 10px; margin-bottom: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========================================
+         SKIP LINK
+    ======================================== -->
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <!-- ========================================
+         MAIN CONTAINER
+    ======================================== -->
+    <div class="container" id="main-content" role="main">
+
+        <!-- ========================================
+             HEADER
+        ======================================== -->
+        <header class="header" role="banner" aria-label="Page header">
+            <span class="header-icon" aria-hidden="true">⌇</span>
+            <h1>The River Chronicles</h1>
+            <div class="sub" aria-hidden="true">✦ The Scheldt Story ✦</div>
+        </header>
+
+        <!-- ========================================
+             FRAME 1: river1.json
+        ======================================== -->
+        <section class="frame-card" id="frame1" aria-labelledby="frame1-title">
+            <div class="frame-inner">
+
+                <!-- Corner Decorations -->
+                <div class="corner corner-tl" aria-hidden="true"></div>
+                <div class="corner corner-tr" aria-hidden="true"></div>
+                <div class="corner corner-bl" aria-hidden="true"></div>
+                <div class="corner corner-br" aria-hidden="true"></div>
+
+                <!-- Frame Header -->
+                <div class="frame-header">
+                    <h2 class="frame-title" id="frame1-title">
+                        Chapter I
+                        <span class="chapter-badge">river1.json</span>
+                    </h2>
+                    <div class="controls-group" role="toolbar" aria-label="Controls for Chapter I">
+                        <button class="btn btn-primary" id="speak1" aria-label="Listen to Chapter I">
+                            <span class="icon" aria-hidden="true">🔊</span> Listen
+                        </button>
+                        <button class="btn" id="copy1" aria-label="Copy Chapter I to clipboard">
+                            <span class="icon" aria-hidden="true">📋</span> Copy
+                        </button>
+                        <button class="btn" id="download1" aria-label="Download Chapter I as JSON">
+                            <span class="icon" aria-hidden="true">⬇</span> Download
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Content Area -->
+                <div class="content-area" id="content1" role="document" aria-label="Content of Chapter I">
+                    <div class="loading-state" aria-hidden="true">
+                        <div class="loading-spinner"></div>
+                        <div class="loading-text">Loading Chapter I...</div>
+                    </div>
+                </div>
+
+                <!-- Status -->
+                <div class="status-bar">
+                    <span class="status-msg" id="status1">✦ ready ✦</span>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ========================================
+             FRAME 2: river2.json
+        ======================================== -->
+        <section class="frame-card" id="frame2" aria-labelledby="frame2-title">
+            <div class="frame-inner">
+
+                <!-- Corner Decorations -->
+                <div class="corner corner-tl" aria-hidden="true"></div>
+                <div class="corner corner-tr" aria-hidden="true"></div>
+                <div class="corner corner-bl" aria-hidden="true"></div>
+                <div class="corner corner-br" aria-hidden="true"></div>
+
+                <!-- Frame Header -->
+                <div class="frame-header">
+                    <h2 class="frame-title" id="frame2-title">
+                        Chapter II
+                        <span class="chapter-badge">river2.json</span>
+                    </h2>
+                    <div class="controls-group" role="toolbar" aria-label="Controls for Chapter II">
+                        <button class="btn btn-primary" id="speak2" aria-label="Listen to Chapter II">
+                            <span class="icon" aria-hidden="true">🔊</span> Listen
+                        </button>
+                        <button class="btn" id="copy2" aria-label="Copy Chapter II to clipboard">
+                            <span class="icon" aria-hidden="true">📋</span> Copy
+                        </button>
+                        <button class="btn" id="download2" aria-label="Download Chapter II as JSON">
+                            <span class="icon" aria-hidden="true">⬇</span> Download
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Content Area -->
+                <div class="content-area" id="content2" role="document" aria-label="Content of Chapter II">
+                    <div class="loading-state" aria-hidden="true">
+                        <div class="loading-spinner"></div>
+                        <div class="loading-text">Loading Chapter II...</div>
+                    </div>
+                </div>
+
+                <!-- Status -->
+                <div class="status-bar">
+                    <span class="status-msg" id="status2">✦ ready ✦</span>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // ========================================
+            // CONFIGURATION
+            // ========================================
+            const FILES = {
+                frame1: {
+                    url: 'river1.json',
+                    container: 'content1',
+                    status: 'status1',
+                    speakBtn: 'speak1',
+                    copyBtn: 'copy1',
+                    downloadBtn: 'download1',
+                    name: 'Chapter I'
+                },
+                frame2: {
+                    url: 'river2.json',
+                    container: 'content2',
+                    status: 'status2',
+                    speakBtn: 'speak2',
+                    copyBtn: 'copy2',
+                    downloadBtn: 'download2',
+                    name: 'Chapter II'
+                }
+            };
+
+            let currentData = {
+                frame1: null,
+                frame2: null
+            };
+
+            let speechSynth = window.speechSynthesis;
+            let currentUtterance = null;
+            let isSpeaking = {
+                frame1: false,
+                frame2: false
+            };
+
+            // ========================================
+            // UTILITY: Extract text from any JSON
+            // ========================================
+            function extractTextFromJSON(data, depth = 0) {
+                if (typeof data === 'string') {
+                    return data;
+                }
+                if (typeof data === 'number' || typeof data === 'boolean') {
+                    return String(data);
+                }
+                if (Array.isArray(data)) {
+                    return data.map(item => extractTextFromJSON(item, depth + 1)).join('. ');
+                }
+                if (typeof data === 'object' && data !== null) {
+                    // Skip metadata and keywords for speech
+                    if (data.metadata) {
+                        const { metadata, ...rest } = data;
+                        return extractTextFromJSON(rest, depth + 1);
+                    }
+                    const texts = [];
+                    for (const [key, value] of Object.entries(data)) {
+                        if (key === 'keywords' || key === 'metadata') continue;
+                        const extracted = extractTextFromJSON(value, depth + 1);
+                        if (extracted) {
+                            texts.push(extracted);
+                        }
+                    }
+                    return texts.join('. ');
+                }
+                return '';
+            }
+
+            // ========================================
+            // RENDER: Smart display for any JSON
+            // ========================================
+            function renderAnyJSON(data, depth = 0) {
+                if (data === null || data === undefined) {
+                    return '<div class="empty-state">✦ No data available ✦</div>';
+                }
+
+                // String
+                if (typeof data === 'string') {
+                    return `<div class="section-value">${data.replace(/\n/g, '<br>')}</div>`;
+                }
+
+                // Number / Boolean
+                if (typeof data === 'number' || typeof data === 'boolean') {
+                    return `<div class="section-value">${String(data)}</div>`;
+                }
+
+                // Array
+                if (Array.isArray(data)) {
+                    if (data.length === 0) return '<div class="section-value">—</div>';
+                    return data.map(item => renderAnyJSON(item, depth + 1)).join('');
+                }
+
+                // Object
+                if (typeof data === 'object') {
+                    const entries = Object.entries(data);
+                    
+                    // Check for special keys
+                    if (data.title && depth === 0) {
+                        let html = `<div class="chapter-title">${data.title}</div>`;
+                        if (data.subtitle) {
+                            html += `<div class="chapter-subtitle">${data.subtitle}</div>`;
+                        }
+                        // Remove title/subtitle from entries
+                        const remaining = entries.filter(([k]) => k !== 'title' && k !== 'subtitle' && k !== 'metadata');
+                        html += remaining.map(([key, value]) => renderSection(key, value, depth + 1)).join('');
+                        
+                        // Metadata
+                        if (data.metadata) {
+                            html += renderMetadata(data.metadata);
+                        }
+                        return html;
+                    }
+
+                    // Default object rendering
+                    if (entries.length === 0) return '<div class="section-value">—</div>';
+                    return entries.map(([key, value]) => renderSection(key, value, depth + 1)).join('');
+                }
+
+                return `<div class="section-value">${String(data)}</div>`;
+            }
+
+            function renderSection(key, value, depth) {
+                const label = key
+                    .replace(/_/g, ' ')
+                    .replace(/([A-Z])/g, ' $1')
+                    .trim()
+                    .split(' ')
+                    .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+                    .join(' ');
+
+                // Special handling for keywords
+                if (key === 'keywords' && Array.isArray(value)) {
+                    return `
+                        <div class="section">
+                            <span class="section-label">Keywords</span>
+                            <div class="keywords">
+                                ${value.map(k => `<span class="keyword">${k}</span>`).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Special handling for proverb
+                if (key === 'cultural_proverb' || key === 'folk_wisdom' || key === 'dutch_wisdom') {
+                    let proverbText = value;
+                    if (typeof value === 'object' && value.translation) {
+                        proverbText = value.translation;
+                        if (value.original) {
+                            proverbText = `<em>${value.original}</em><br>${value.translation}`;
+                        }
+                    }
+                    return `
+                        <div class="proverb">${proverbText}</div>
+                    `;
+                }
+
+                // Special handling for story
+                if (key === 'story' || key === 'local_legend') {
+                    return `
+                        <div class="story">
+                            <span class="section-label">${label}</span>
+                            <div class="section-value">${typeof value === 'string' ? value.replace(/\n/g, '<br>') : renderAnyJSON(value, depth + 1)}</div>
+                        </div>
+                    `;
+                }
+
+                // Regular section
+                return `
+                    <div class="section">
+                        <span class="section-label">${label}</span>
+                        ${renderAnyJSON(value, depth + 1)}
+                    </div>
+                `;
+            }
+
+            function renderMetadata(metadata) {
+                let html = `<div class="meta-info">`;
+                if (metadata.chapter) html += `Chapter ${metadata.chapter} · `;
+                if (metadata.wordCount) html += `${metadata.wordCount} words · `;
+                if (metadata.language) html += `${metadata.language}`;
+                html += `</div>`;
+                return html;
+            }
+
+            // ========================================
+            // DISPLAY FUNCTIONS
+            // ========================================
+            function displayData(data, frameId) {
+                const config = FILES[frameId];
+                if (!config) return;
+
+                const container = document.getElementById(config.container);
+                if (!container) return;
+
+                // Store data
+                currentData[frameId] = data;
+
+                // Render
+                const rendered = renderAnyJSON(data);
+                container.innerHTML = rendered;
+
+                // Update status
+                updateStatus(frameId, '✦ loaded ✦');
+            }
+
+            function showError(frameId, message) {
+                const config = FILES[frameId];
+                if (!config) return;
+
+                const container = document.getElementById(config.container);
+                if (!container) return;
+
+                container.innerHTML = `
+                    <div class="empty-state" style="color:rgba(255,255,255,0.06);">
+                        ⚡ ${message}<br>
+                        <span style="font-size:0.55rem;letter-spacing:2px;display:block;margin-top:6px;">please refresh or try again</span>
+                    </div>
+                `;
+                updateStatus(frameId, `✦ ${message.toLowerCase()} ✦`);
+            }
+
+            function showLoading(frameId) {
+                const config = FILES[frameId];
+                if (!config) return;
+
+                const container = document.getElementById(config.container);
+                if (!container) return;
+
+                container.innerHTML = `
+                    <div class="loading-state" aria-hidden="true">
+                        <div class="loading-spinner"></div>
+                        <div class="loading-text">Loading ${config.name}...</div>
+                    </div>
+                `;
+                updateStatus(frameId, '✦ loading... ✦');
+            }
+
+            function updateStatus(frameId, message) {
+                const config = FILES[frameId];
+                if (!config) return;
+
+                const statusEl = document.getElementById(config.status);
+                if (statusEl) {
+                    statusEl.textContent = message;
+                }
+            }
+
+            // ========================================
+            // FETCH FUNCTIONS
+            // ========================================
+            async function fetchWithRetry(url, retries = 2) {
+                let lastError;
+                for (let i = 0; i <= retries; i++) {
+                    try {
+                        const controller = new AbortController();
+                        const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+                        const response = await fetch(url, {
+                            signal: controller.signal,
+                            cache: 'no-store',
+                            credentials: 'omit',
+                            mode: 'cors',
+                            referrerPolicy: 'no-referrer',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Cache-Control': 'no-cache, no-store, must-revalidate',
+                                'Pragma': 'no-cache'
+                            }
+                        });
+
+                        clearTimeout(timeoutId);
+
+                        if (!response.ok) {
+                            throw new Error(`HTTP ${response.status}`);
+                        }
+
+                        const text = await response.text();
+                        try {
+                            return { success: true, data: JSON.parse(text) };
+                        } catch (e) {
+                            throw new Error('Invalid JSON');
+                        }
+
+                    } catch (error) {
+                        lastError = error;
+                        if (i < retries) {
+                            await new Promise(r => setTimeout(r, 500 * (i + 1)));
+                        }
+                    }
+                }
+                return { success: false, error: lastError };
+            }
+
+            async function fetchFrame(frameId) {
+                const config = FILES[frameId];
+                if (!config) return;
+
+                showLoading(frameId);
+
+                const result = await fetchWithRetry(config.url);
+
+                if (result.success && result.data) {
+                    displayData(result.data, frameId);
+                } else {
+                    let msg = 'Failed to load';
+                    if (result.error) {
+                        if (result.error.name === 'AbortError') msg = 'Timeout';
+                        else if (result.error.message) msg = result.error.message;
+                    }
+                    showError(frameId, msg);
+                }
+            }
+
+            async function fetchAll() {
+                await Promise.all([
+                    fetchFrame('frame1'),
+                    fetchFrame('frame2')
+                ]);
+            }
+
+            // ========================================
+            // SPEECH SYNTHESIS
+            // ========================================
+            function speakFrame(frameId) {
+                const data = currentData[frameId];
+                if (!data) {
+                    updateStatus(frameId, '✦ no data to speak ✦');
+                    return;
+                }
+
+                // Stop any current speech
+                if (speechSynth.speaking) {
+                    speechSynth.cancel();
+                }
+
+                // If already speaking this frame, stop it
+                if (isSpeaking[frameId]) {
+                    isSpeaking[frameId] = false;
+                    const btn = document.getElementById(FILES[frameId].speakBtn);
+                    btn.classList.remove('btn-playing');
+                    btn.innerHTML = '<span class="icon" aria-hidden="true">🔊</span> Listen';
+                    updateStatus(frameId, '✦ stopped ✦');
+                    return;
+                }
+
+                // Extract text
+                const text = extractTextFromJSON(data);
+                if (!text || text.length < 2) {
+                    updateStatus(frameId, '✦ no text to speak ✦');
+                    return;
+                }
+
+                // Create utterance
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 1;
+                utterance.pitch = 1;
+                utterance.volume = 1;
+
+                // Update UI
+                const btn = document.getElementById(FILES[frameId].speakBtn);
+                btn.classList.add('btn-playing');
+                btn.innerHTML = '<span class="icon" aria-hidden="true">⏹</span> Stop';
+                isSpeaking[frameId] = true;
+                updateStatus(frameId, '✦ speaking... ✦');
+
+                // Handle end
+                utterance.onend = function() {
+                    isSpeaking[frameId] = false;
+                    btn.classList.remove('btn-playing');
+                    btn.innerHTML = '<span class="icon" aria-hidden="true">🔊</span> Listen';
+                    updateStatus(frameId, '✦ finished ✦');
+                };
+
+                utterance.onerror = function() {
+                    isSpeaking[frameId] = false;
+                    btn.classList.remove('btn-playing');
+                    btn.innerHTML = '<span class="icon" aria-hidden="true">🔊</span> Listen';
+                    updateStatus(frameId, '✦ speech error ✦');
+                };
+
+                // Speak
+                speechSynth.speak(utterance);
+                currentUtterance = utterance;
+            }
+
+            // ========================================
+            // COPY FUNCTION
+            // ========================================
+            function copyFrame(frameId) {
+                const data = currentData[frameId];
+                if (!data) {
+                    updateStatus(frameId, '✦ no data to copy ✦');
+                    return;
+                }
+
+                try {
+                    const text = JSON.stringify(data, null, 2);
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(text).then(() => {
+                            updateStatus(frameId, '✦ copied to clipboard ✦');
+                            setTimeout(() => {
+                                if (currentData[frameId]) {
+                                    updateStatus(frameId, '✦ loaded ✦');
+                                }
+                            }, 2000);
+                        }).catch(() => {
+                            fallbackCopy(frameId, text);
+                        });
+                    } else {
+                        fallbackCopy(frameId, text);
+                    }
+                } catch (e) {
+                    updateStatus(frameId, '✦ copy failed ✦');
+                }
+            }
+
+            function fallbackCopy(frameId, text) {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                ta.style.position = 'fixed';
+                ta.style.opacity = '0';
+                ta.setAttribute('aria-hidden', 'true');
+                document.body.appendChild(ta);
+                ta.select();
+                try {
+                    document.execCommand('copy');
+                    updateStatus(frameId, '✦ copied (fallback) ✦');
+                    setTimeout(() => {
+                        if (currentData[frameId]) {
+                            updateStatus(frameId, '✦ loaded ✦');
+                        }
+                    }, 2000);
+                } catch (e) {
+                    updateStatus(frameId, '✦ copy failed ✦');
+                }
+                document.body.removeChild(ta);
+            }
+
+            // ========================================
+            // DOWNLOAD FUNCTION
+            // ========================================
+            function downloadFrame(frameId) {
+                const data = currentData[frameId];
+                if (!data) {
+                    updateStatus(frameId, '✦ no data to download ✦');
+                    return;
+                }
+
+                try {
+                    const json = JSON.stringify(data, null, 2);
+                    const blob = new Blob([json], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = frameId === 'frame1' ? 'river1.json' : 'river2.json';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    updateStatus(frameId, '✦ download started ✦');
+                    setTimeout(() => {
+                        if (currentData[frameId]) {
+                            updateStatus(frameId, '✦ loaded ✦');
+                        }
+                    }, 2000);
+                } catch (e) {
+                    updateStatus(frameId, '✦ download failed ✦');
+                }
+            }
+
+            // ========================================
+            // EVENT LISTENERS
+            // ========================================
+            // Frame 1
+            document.getElementById('speak1').addEventListener('click', () => speakFrame('frame1'));
+            document.getElementById('copy1').addEventListener('click', () => copyFrame('frame1'));
+            document.getElementById('download1').addEventListener('click', () => downloadFrame('frame1'));
+
+            // Frame 2
+            document.getElementById('speak2').addEventListener('click', () => speakFrame('frame2'));
+            document.getElementById('copy2').addEventListener('click', () => copyFrame('frame2'));
+            document.getElementById('download2').addEventListener('click', () => downloadFrame('frame2'));
+
+            // ========================================
+            // KEYBOARD SHORTCUTS
+            // ========================================
+            document.addEventListener('keydown', (e) => {
+                // Alt+1: Speak Chapter I
+                if (e.altKey && e.key === '1') {
+                    e.preventDefault();
+                    speakFrame('frame1');
+                }
+                // Alt+2: Speak Chapter II
+                if (e.altKey && e.key === '2') {
+                    e.preventDefault();
+                    speakFrame('frame2');
+                }
+                // Alt+C: Copy current focused frame
+                if (e.altKey && e.key === 'c') {
+                    e.preventDefault();
+                    const active = document.activeElement?.closest('.frame-card');
+                    if (active) {
+                        const id = active.id;
+                        if (id === 'frame1') copyFrame('frame1');
+                        else if (id === 'frame2') copyFrame('frame2');
+                    }
+                }
+                // Escape: Stop speech
+                if (e.key === 'Escape') {
+                    if (speechSynth.speaking) {
+                        speechSynth.cancel();
+                        // Reset all speaking states
+                        for (const frameId of ['frame1', 'frame2']) {
+                            isSpeaking[frameId] = false;
+                            const btn = document.getElementById(FILES[frameId].speakBtn);
+                            btn.classList.remove('btn-playing');
+                            btn.innerHTML = '<span class="icon" aria-hidden="true">🔊</span> Listen';
+                            updateStatus(frameId, '✦ stopped ✦');
+                        }
+                    }
+                }
+            });
+
+            // ========================================
+            // AUTO LOAD
+            // ========================================
+            window.addEventListener('load', () => {
+                setTimeout(fetchAll, 400);
+            });
+
+            // ========================================
+            // CONSOLE
+            // ========================================
+            console.log('✦ River Chronicles - Accessible Edition ✦');
+            console.log('⌨️  Alt+1: Speak Chapter I');
+            console.log('⌨️  Alt+2: Speak Chapter II');
+            console.log('⌨️  Alt+C: Copy focused chapter');
+            console.log('⌨️  Escape: Stop speech');
+            console.log('♿  Full accessibility support enabled');
+
+        })();
+    </script>
+
+</body>
+</html>
